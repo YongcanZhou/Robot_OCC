@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\button_flat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\occview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\4UGIYD6VGQ\qrc_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\button_flat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\general.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\libtree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\mainwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\occ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\occview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\include_Debug\visualization\ui_mainwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\include_Release\visualization\ui_mainwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\include_MinSizeRel\visualization\ui_mainwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\include_RelWithDebInfo\visualization\ui_mainwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\CMakeFiles\3cff05fe9a5e086a371aa338b9c3d175\autouic_(CONFIG).stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\CMakeFiles\ad50b5202747c7891ba19a16dcf6c278\qrc_image.cpp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\visualization\mainwindow.ui" />
+    <None Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\images\image.qrc" />
+    <None Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\autouic_Debug.stamp" />
+    <None Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\autouic_Release.stamp" />
+    <None Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\autouic_MinSizeRel.stamp" />
+    <None Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\VisualizationDemoV01_autogen\autouic_RelWithDebInfo.stamp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{58021CF9-4A89-393C-B93B-A9E5B84F2646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{BC9CCD3A-1A8F-3109-9AC4-DCA4A5850B62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{73FC31B4-BCFE-3A41-87A4-5B1047D507C3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

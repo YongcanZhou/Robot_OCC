@@ -1,0 +1,10 @@
+^C:\USERS\ZHOUYC\DESKTOP\CONTACT\VISUALIZATION\ROBOT_OCC\BUILD\CMAKEFILES\961E9C3C0DDA53214F8ACF7A4FC2C8C8\GENERATE.STAMP.RULE
+setlocal
+D:\app\cmake3.23\bin\cmake.exe -SC:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC -BC:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/VisualizationDemoV01.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,42 @@
+^C:\USERS\ZHOUYC\DESKTOP\CONTACT\VISUALIZATION\ROBOT_OCC\BUILD\CMAKEFILES\3CFF05FE9A5E086A371AA338B9C3D175\AUTOUIC_(CONFIG).STAMP.RULE
+setlocal
+cd C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\ZHOUYC\DESKTOP\CONTACT\VISUALIZATION\ROBOT_OCC\BUILD\CMAKEFILES\AD50B5202747C7891BA19A16DCF6C278\QRC_IMAGE.CPP.RULE
+setlocal
+cd C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+D:\app\cmake3.23\bin\cmake.exe -E cmake_autorcc C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/CMakeFiles/VisualizationDemoV01_autogen.dir/AutoRcc_image_4UGIYD6VGQ_Info.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+D:\app\cmake3.23\bin\cmake.exe -E cmake_autorcc C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/CMakeFiles/VisualizationDemoV01_autogen.dir/AutoRcc_image_4UGIYD6VGQ_Info.json Release
+if %errorlevel% neq 0 goto :cmEnd
+D:\app\cmake3.23\bin\cmake.exe -E cmake_autorcc C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/CMakeFiles/VisualizationDemoV01_autogen.dir/AutoRcc_image_4UGIYD6VGQ_Info.json MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+D:\app\cmake3.23\bin\cmake.exe -E cmake_autorcc C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/CMakeFiles/VisualizationDemoV01_autogen.dir/AutoRcc_image_4UGIYD6VGQ_Info.json RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\ZHOUYC\DESKTOP\CONTACT\VISUALIZATION\ROBOT_OCC\CMAKELISTS.TXT
+setlocal
+D:\app\cmake3.23\bin\cmake.exe -SC:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC -BC:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build --check-stamp-file C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
