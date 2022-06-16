@@ -1,5 +1,6 @@
-﻿//#pragma once
-
+﻿
+#ifndef BUTTON_FLAT_H
+#define BUTTON_FLAT_H
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtGui/QBrush>
@@ -72,3 +73,4 @@ private:
 };
 
 } // namespace Mayo
+#endif // BUTTON_FLAT_H
