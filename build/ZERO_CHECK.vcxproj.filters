@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\ZHOUYC\Desktop\contact\Visualization\Robot_OCC\build\CMakeFiles\961e9c3c0dda53214f8acf7a4fc2c8c8\generate.stamp.rule">
+    <CustomBuild Include="C:\Users\ZHOUYC\Desktop\contact\4.Visualization\Robot_OCC\build\CMakeFiles\483923043d4871bdb20d2d05a63c9cc3\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{58021CF9-4A89-393C-B93B-A9E5B84F2646}</UniqueIdentifier>
+      <UniqueIdentifier>{A17FEB9E-2E3E-3E13-96FB-85A568A168F9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include <QtWidgets/QApplication>
 #include <QDebug>
 #include <QMenu>
-#include <visualization/general.h>
+#include <general.h>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QEasingCurve>
@@ -240,11 +240,10 @@ private:
     static double Joint06CurrentAngle;
 
     double Joint01OriginAngle,Joint02OriginAngle,Joint03OriginAngle,Joint04OriginAngle,Joint05OriginAngle,Joint06OriginAngle;
-
+    static double Joint01OriginAngle_static,Joint02OriginAngle_static,Joint03OriginAngle_static,Joint04OriginAngle_static,Joint05OriginAngle_static,Joint06OriginAngle_static;
     gp_Ax1 KukaAx1,KukaAx2,KukaAx3,KukaAx4,KukaAx5,KukaAx6;
     gp_Ax1 UR5Ax1,UR5Ax2,UR5Ax3,UR5Ax4,UR5Ax5,UR5Ax6;
     gp_Ax1 GeneralAx1,GeneralAx2,GeneralAx3,GeneralAx4,GeneralAx5,GeneralAx6;
-
 
 
 public:

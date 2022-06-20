@@ -45,6 +45,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${OpenCASCADE_INCLUDE_DIR})
 include_directories("D:/app/OpenCASCADE-7.4.0-vc14-64/opencascade-7.4.0/inc")
 include_directories("D:/app/eigen-3.4.0")
+include_directories("C:/Users/ZHOUYC/Desktop/contact/4.Visualization/Robot_OCC/visualization")
 
 file(GLOB HEADERS
     visualization/*.h

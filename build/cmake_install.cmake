@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC
+# Install script for directory: C:/Users/ZHOUYC/Desktop/contact/4.Visualization/Robot_OCC
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/ZHOUYC/Desktop/contact/Visualization/Robot_OCC/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/ZHOUYC/Desktop/contact/4.Visualization/Robot_OCC/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

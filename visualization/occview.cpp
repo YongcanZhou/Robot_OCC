@@ -1,7 +1,10 @@
 ﻿#include "occview.h"
 
+#define DeltaAngle ((45.0/180.0)*M_PI)
 
 #define KR16
+//#define UR5
+
 
 #ifdef UR5
 double OccView::Joint01CurrentAngle=-PI/2;
@@ -20,6 +23,14 @@ double OccView::Joint03CurrentAngle=0.0;
 double OccView::Joint04CurrentAngle=0.0;
 double OccView::Joint05CurrentAngle=0.0;
 double OccView::Joint06CurrentAngle=0.0;
+double OccView::Joint01OriginAngle_static = 0.0;
+double OccView::Joint02OriginAngle_static = 0.0;
+double OccView::Joint03OriginAngle_static = 0.0;
+//double Joint03OriginAngle = 0.0; //test definition
+double OccView::Joint04OriginAngle_static = 0.0;
+double OccView::Joint05OriginAngle_static = 0.0;
+double OccView::Joint06OriginAngle_static = 0.0;
+
 #endif
 
 
@@ -36,6 +47,9 @@ OccView::OccView(QWidget *parent) : QWidget(parent)
     m_contextMenu->addAction(m_addAction);
     m_contextMenu->addAction(m_delAction);
 
+//    double DeltaAngle=5/180*M_PI;
+//    qDebug()<<"DeltaAngle_init"<<DeltaAngle;
+//    auto Angle = M_PI_4;
 
     KukaAx1=gp_Ax1(gp_Pnt(0,0,0),gp_Dir(0,0,1));
     KukaAx2=gp_Ax1(gp_Pnt(260,0,675),gp_Dir(0,1,0));
@@ -51,23 +65,24 @@ OccView::OccView(QWidget *parent) : QWidget(parent)
     UR5Ax5=gp_Ax1(gp_Pnt(0,-116.3,946.83),gp_Dir(0,0,1));
     UR5Ax6=gp_Ax1(gp_Pnt(0,-161.8,994.33),gp_Dir(0,-1,0));
 
-#ifdef UR5
-    GeneralAx1=UR5Ax1;
-    GeneralAx2=UR5Ax2;
-    GeneralAx3=UR5Ax3;
-    GeneralAx4=UR5Ax4;
-    GeneralAx5=UR5Ax5;
-    GeneralAx6=UR5Ax6;
-#endif
 
-#ifdef KR16
-    GeneralAx1=KukaAx1;
-    GeneralAx2=KukaAx2;
-    GeneralAx3=KukaAx3;
-    GeneralAx4=KukaAx4;
-    GeneralAx5=KukaAx5;
-    GeneralAx6=KukaAx6;
-#endif
+    #ifdef UR5
+        GeneralAx1=UR5Ax1;
+        GeneralAx2=UR5Ax2;
+        GeneralAx3=UR5Ax3;
+        GeneralAx4=UR5Ax4;
+        GeneralAx5=UR5Ax5;
+        GeneralAx6=UR5Ax6;
+    #endif
+
+    #ifdef KR16
+        GeneralAx1=KukaAx1;
+        GeneralAx2=KukaAx2;
+        GeneralAx3=KukaAx3;
+        GeneralAx4=KukaAx4;
+        GeneralAx5=KukaAx5;
+        GeneralAx6=KukaAx6;
+    #endif
 
 }
 
@@ -188,7 +203,7 @@ void OccView::loadDisplayRobotWhole()
             m_context->Display(RobotAISShape[i-1],true);
         }
 
-        TDF_Label testlabel=components.Value(2);
+//        TDF_Label testlabel=components.Value(2);
 
         //        TopLoc_Location ttloc(tttrsf);
         //        auto tttshape=ShapeTool->GetShape(testlabel);
@@ -196,27 +211,27 @@ void OccView::loadDisplayRobotWhole()
 
 
 
-        gp_Trsf delta;
-        gp_Vec deltavec(0,0,0);
-        delta.SetTranslationPart(deltavec);
-        tttrsf=tttrsf*delta;
+//        gp_Trsf delta;
+//        gp_Vec deltavec(0,0,0);
+//        delta.SetTranslationPart(deltavec);
+//        tttrsf=tttrsf*delta;
 
-        m_context->SetLocation(RobotAISShape[1],delta);
-        m_context->Update(RobotAISShape[1],Standard_True);
+//        m_context->SetLocation(RobotAISShape[1],delta);
+//        m_context->Update(RobotAISShape[1],Standard_True);
 
-        Handle_AIS_ConnectedInteractive aiscon=new AIS_ConnectedInteractive;
-        aiscon->Connect(RobotAISShape[5],delta);
-        aiscon->SetOwner(RobotAISShape[4]);
-        if(aiscon->HasConnection()){
-            auto gg=aiscon->HasConnection();
-            qDebug()<<"aiscon->HasConnection"<<gg;
-        }
-        delta=delta*delta;
-        aiscon->Redisplay(true);
-        m_context->Update(RobotAISShape[5],Standard_True);
+//        Handle_AIS_ConnectedInteractive aiscon=new AIS_ConnectedInteractive;
+//        aiscon->Connect(RobotAISShape[5],delta);
+//        aiscon->SetOwner(RobotAISShape[4]);
+//        if(aiscon->HasConnection()){
+//            auto gg=aiscon->HasConnection();
+//            qDebug()<<"aiscon->HasConnection"<<gg;
+//        }
+//        delta=delta*delta;
+//        aiscon->Redisplay(true);
+//        m_context->Update(RobotAISShape[5],Standard_True);
 
-        m_context->SetLocation(RobotAISShape[4],delta);
-        m_context->Update(RobotAISShape[4],Standard_True);
+//        m_context->SetLocation(RobotAISShape[4],delta);
+//        m_context->Update(RobotAISShape[4],Standard_True);
 
         //RobotAISShape[6]->AddChild(RobotAISShape[7]);
         RobotAISShape[5]->AddChild(RobotAISShape[6]);
@@ -288,31 +303,30 @@ void OccView::initUR5()
 void OccView::loadDisplayRobotJoints()
 {
 
-    STEPControl_Reader reader;
-    static int index=0;
-    IFSelect_ReturnStatus stat = reader.ReadFile(robotPath.toUtf8());
-    if (stat != IFSelect_RetDone)
-        return;
-    //加载文件
-    Standard_Integer NbRoots = reader.NbRootsForTransfer();
-    Standard_Integer num = reader.TransferRoots();
-    auto shape=reader.OneShape();
-    RobotAISShape[index]=new AIS_Shape(shape);
-    m_context->Display(RobotAISShape[index],Standard_True);
+//    STEPControl_Reader reader;
+//    static int index=0;
+//    IFSelect_ReturnStatus stat = reader.ReadFile(robotPath.toUtf8());
+//    if (stat != IFSelect_RetDone)
+//        return;
+//    //加载文件
+//    Standard_Integer NbRoots = reader.NbRootsForTransfer();
+//    Standard_Integer num = reader.TransferRoots();
+//    auto shape=reader.OneShape();
+//    RobotAISShape[index]=new AIS_Shape(shape);
+//    m_context->Display(RobotAISShape[index],Standard_True);
 
-    index++;
-    if(index==7){
+//    index++;
+//    if(index==7){
 
-        RobotAISShape[5]->AddChild(RobotAISShape[6]);
-        RobotAISShape[4]->AddChild(RobotAISShape[5]);
-        RobotAISShape[3]->AddChild(RobotAISShape[4]);
-        RobotAISShape[2]->AddChild(RobotAISShape[3]);
-        RobotAISShape[1]->AddChild(RobotAISShape[2]);
-        RobotAISShape[0]->AddChild(RobotAISShape[1]);
+//        RobotAISShape[5]->AddChild(RobotAISShape[6]);
+//        RobotAISShape[4]->AddChild(RobotAISShape[5]);
+//        RobotAISShape[3]->AddChild(RobotAISShape[4]);
+//        RobotAISShape[2]->AddChild(RobotAISShape[3]);
+//        RobotAISShape[1]->AddChild(RobotAISShape[2]);
+//        RobotAISShape[0]->AddChild(RobotAISShape[1]);
 
-        index=0;
-    }
-
+//        index=0;
+//    }
 
 }
 
@@ -580,6 +594,7 @@ void OccView::RobotBackHome()
     gp_Ax1 ax3(gp_Pnt(260,0,1355),gp_Dir(0,1,0));
     trans.SetRotation(GeneralAx3,getJoint03CurrentAngle());
     m_context->SetLocation( RobotAISShape[3],trans);
+    qDebug()<<"Angle03init"<<getJoint03CurrentAngle();
 
     gp_Ax1 ax4(gp_Pnt(662,0,1320),gp_Dir(1,0,0));
     trans.SetRotation(GeneralAx4,getJoint04CurrentAngle());
@@ -601,74 +616,121 @@ void OccView::RobotBackHome()
 
 void OccView::ButtonAxis01MoveForward()
 {
+//    gp_Trsf trans;
+//    getJoint01CurrentAngle()=getJoint01CurrentAngle()+deltaAngle;
+//    auto angle=getJoint01CurrentAngle()-Joint01OriginAngle;
+//    Ui::PILimit(angle);
+//    trans.SetRotation(GeneralAx1,angle);
+//    m_context->SetLocation( RobotAISShape[1],trans);
+//    m_context->UpdateCurrentViewer();
     gp_Trsf trans;
-    getJoint01CurrentAngle()=getJoint01CurrentAngle()+deltaAngle;
-    auto angle=getJoint01CurrentAngle()-Joint01OriginAngle;
-    Ui::PILimit(angle);
-    trans.SetRotation(GeneralAx1,angle);
-    m_context->SetLocation( RobotAISShape[1],trans);
+    getJoint01CurrentAngle()=getJoint01CurrentAngle()-Joint01OriginAngle_static+DeltaAngle;
+    Ui::PILimit(getJoint01CurrentAngle());
+    trans.SetRotation(GeneralAx1,getJoint01CurrentAngle());
+    m_context->SetLocation(RobotAISShape[1],trans);
     m_context->UpdateCurrentViewer();
 }
 
 void OccView::ButtonAxis02MoveForward()
 {
+//    gp_Trsf trans;
+//    getJoint02CurrentAngle()=getJoint02CurrentAngle()+deltaAngle;
+//    auto angle=getJoint02CurrentAngle()-Joint02OriginAngle;
+//    Ui::PILimit(angle);
+//    trans.SetRotation(GeneralAx2,angle);
+//    m_context->SetLocation( RobotAISShape[2],trans);
+//    m_context->UpdateCurrentViewer();
     gp_Trsf trans;
-    getJoint02CurrentAngle()=getJoint02CurrentAngle()+deltaAngle;
-    auto angle=getJoint02CurrentAngle()-Joint02OriginAngle;
-    Ui::PILimit(angle);
-    trans.SetRotation(GeneralAx2,angle);
-    m_context->SetLocation( RobotAISShape[2],trans);
+    getJoint02CurrentAngle()=getJoint02CurrentAngle()-Joint02OriginAngle_static+DeltaAngle;
+    Ui::PILimit(getJoint02CurrentAngle());
+    trans.SetRotation(GeneralAx2,getJoint02CurrentAngle());
+    m_context->SetLocation(RobotAISShape[2],trans);
     m_context->UpdateCurrentViewer();
+
 }
 
 void OccView::ButtonAxis03MoveForward()
 {
+//    gp_Trsf trans;
+//    getJoint03CurrentAngle()=getJoint03CurrentAngle()+deltaAngle;
+//    auto angle=getJoint03CurrentAngle()-Joint03OriginAngle;
+//    qDebug()<<"Angle03"<<getJoint03CurrentAngle();
+//    Ui::PILimit(angle);
+//    trans.SetRotation(GeneralAx3,angle);
+//    m_context->SetLocation( RobotAISShape[3],trans);
+//    m_context->UpdateCurrentViewer();
     gp_Trsf trans;
-    getJoint03CurrentAngle()=getJoint03CurrentAngle()+deltaAngle;
-    auto angle=getJoint03CurrentAngle()-Joint03OriginAngle;
-    Ui::PILimit(angle);
-    trans.SetRotation(GeneralAx3,angle);
-    m_context->SetLocation( RobotAISShape[3],trans);
+    qDebug()<<"Angle03before"<<getJoint03CurrentAngle();
+    qDebug()<<"OriginAngleorigin"<<Joint03OriginAngle;
+    qDebug()<<"OriginAngle"<<Joint03OriginAngle_static;
+    qDebug()<<"deltaAngle"<<DeltaAngle;
+    getJoint03CurrentAngle()=getJoint03CurrentAngle()-Joint03OriginAngle_static+DeltaAngle;
+    Ui::PILimit(getJoint03CurrentAngle());
+    trans.SetRotation(GeneralAx3,getJoint03CurrentAngle());
+    qDebug()<<"Angle03after"<<getJoint03CurrentAngle();
+    m_context->SetLocation(RobotAISShape[3],trans);
     m_context->UpdateCurrentViewer();
 }
 
 void OccView::ButtonAxis04MoveForward()
 {
+//    gp_Trsf trans;
+//    getJoint04CurrentAngle()=getJoint04CurrentAngle()+deltaAngle;
+//    auto angle=getJoint04CurrentAngle()-Joint04OriginAngle;
+//    Ui::PILimit(angle);
+//    trans.SetRotation(GeneralAx4,angle);
+//    m_context->SetLocation( RobotAISShape[4],trans);
+//    m_context->UpdateCurrentViewer();
     gp_Trsf trans;
-    getJoint04CurrentAngle()=getJoint04CurrentAngle()+deltaAngle;
-    auto angle=getJoint04CurrentAngle()-Joint04OriginAngle;
-    Ui::PILimit(angle);
-    trans.SetRotation(GeneralAx4,angle);
-    m_context->SetLocation( RobotAISShape[4],trans);
+    getJoint04CurrentAngle()=getJoint04CurrentAngle()-Joint04OriginAngle_static+DeltaAngle;
+    Ui::PILimit(getJoint04CurrentAngle());
+    trans.SetRotation(GeneralAx4,getJoint04CurrentAngle());
+    m_context->SetLocation(RobotAISShape[4],trans);
     m_context->UpdateCurrentViewer();
 }
 
 void OccView::ButtonAxis05MoveForward()
 {
+//    gp_Trsf trans;
+//    getJoint05CurrentAngle()=getJoint05CurrentAngle()+deltaAngle;
+//    auto angle=getJoint05CurrentAngle()-Joint05OriginAngle;
+//    Ui::PILimit(angle);
+//    trans.SetRotation(GeneralAx5,angle);
+//    m_context->SetLocation( RobotAISShape[5],trans);
+//    m_context->UpdateCurrentViewer();
     gp_Trsf trans;
-    getJoint05CurrentAngle()=getJoint05CurrentAngle()+deltaAngle;
-    auto angle=getJoint05CurrentAngle()-Joint05OriginAngle;
-    Ui::PILimit(angle);
-    trans.SetRotation(GeneralAx5,angle);
-    m_context->SetLocation( RobotAISShape[5],trans);
+    getJoint05CurrentAngle()=getJoint05CurrentAngle()-Joint05OriginAngle_static+DeltaAngle;
+    Ui::PILimit(getJoint05CurrentAngle());
+    trans.SetRotation(GeneralAx5,getJoint05CurrentAngle());
+    m_context->SetLocation(RobotAISShape[5],trans);
     m_context->UpdateCurrentViewer();
 }
 
 void OccView::ButtonAxis06MoveForward()
 {
+//    gp_Trsf trans;
+//    getJoint06CurrentAngle()=getJoint06CurrentAngle()+deltaAngle;
+//    auto angle=getJoint06CurrentAngle()-Joint06OriginAngle;
+//    Ui::PILimit(angle);
+//    trans.SetRotation(GeneralAx6,angle);
+//    m_context->SetLocation( RobotAISShape[6],trans);
+//    m_context->UpdateCurrentViewer();
     gp_Trsf trans;
-    getJoint06CurrentAngle()=getJoint06CurrentAngle()+deltaAngle;
-    auto angle=getJoint06CurrentAngle()-Joint06OriginAngle;
-    Ui::PILimit(angle);
-    trans.SetRotation(GeneralAx6,angle);
-    m_context->SetLocation( RobotAISShape[6],trans);
+    getJoint06CurrentAngle()=getJoint06CurrentAngle()-Joint06OriginAngle_static+DeltaAngle;
+    Ui::PILimit(getJoint06CurrentAngle());
+    trans.SetRotation(GeneralAx6,getJoint06CurrentAngle());
+    m_context->SetLocation(RobotAISShape[6],trans);
     m_context->UpdateCurrentViewer();
 }
 
 void OccView::ButtonAxis01MoveBackward()
 {
     gp_Trsf trans;
-    getJoint01CurrentAngle()=getJoint01CurrentAngle()-Joint01OriginAngle-deltaAngle;
+    qDebug()<<"Angle01before"<<getJoint01CurrentAngle();
+    getJoint01CurrentAngle()=getJoint01CurrentAngle()-Joint01OriginAngle_static-DeltaAngle;
+    qDebug()<<"Angle01after"<<getJoint01CurrentAngle();
+    qDebug()<<"OriginAngleorigin"<<Joint01OriginAngle;
+    qDebug()<<"OriginAngle"<<Joint01OriginAngle_static;
     Ui::PILimit(getJoint01CurrentAngle());
     trans.SetRotation(GeneralAx1,getJoint01CurrentAngle());
     m_context->SetLocation( RobotAISShape[1],trans);
@@ -678,7 +740,8 @@ void OccView::ButtonAxis01MoveBackward()
 void OccView::ButtonAxis02MoveBackward()
 {
     gp_Trsf trans;
-    getJoint02CurrentAngle()=getJoint02CurrentAngle()-Joint02OriginAngle-deltaAngle;
+//    getJoint02CurrentAngle()=getJoint02CurrentAngle()-Joint02OriginAngle-deltaAngle;
+    getJoint02CurrentAngle()=getJoint02CurrentAngle()-Joint02OriginAngle_static-DeltaAngle;
     Ui::PILimit(getJoint02CurrentAngle());
     trans.SetRotation(GeneralAx2,getJoint02CurrentAngle());
     m_context->SetLocation(RobotAISShape[2],trans);
@@ -688,7 +751,8 @@ void OccView::ButtonAxis02MoveBackward()
 void OccView::ButtonAxis03MoveBackward()
 {
     gp_Trsf trans;
-    getJoint03CurrentAngle()=getJoint03CurrentAngle()-Joint03OriginAngle-deltaAngle;
+//    getJoint03CurrentAngle()=getJoint03CurrentAngle()-Joint03OriginAngle-deltaAngle;
+    getJoint03CurrentAngle()=getJoint03CurrentAngle()-Joint03OriginAngle_static-DeltaAngle;
     Ui::PILimit(getJoint03CurrentAngle());
     trans.SetRotation(GeneralAx3,getJoint03CurrentAngle());
     m_context->SetLocation(RobotAISShape[3],trans);
@@ -698,7 +762,8 @@ void OccView::ButtonAxis03MoveBackward()
 void OccView::ButtonAxis04MoveBackward()
 {
     gp_Trsf trans;
-    getJoint04CurrentAngle()=getJoint04CurrentAngle()-Joint04OriginAngle-deltaAngle;
+//    getJoint04CurrentAngle()=getJoint04CurrentAngle()-Joint04OriginAngle-deltaAngle;
+    getJoint04CurrentAngle()=getJoint04CurrentAngle()-Joint04OriginAngle_static-DeltaAngle;
     Ui::PILimit(getJoint04CurrentAngle());
     trans.SetRotation(GeneralAx4,getJoint04CurrentAngle());
     m_context->SetLocation(RobotAISShape[4],trans);
@@ -708,7 +773,8 @@ void OccView::ButtonAxis04MoveBackward()
 void OccView::ButtonAxis05MoveBackward()
 {
     gp_Trsf trans;
-    getJoint05CurrentAngle()=getJoint05CurrentAngle()-Joint05OriginAngle-deltaAngle;
+//    getJoint05CurrentAngle()=getJoint05CurrentAngle()-Joint05OriginAngle-deltaAngle;
+    getJoint05CurrentAngle()=getJoint05CurrentAngle()-Joint05OriginAngle_static-DeltaAngle;
     Ui::PILimit(getJoint05CurrentAngle());
     trans.SetRotation(GeneralAx5,getJoint05CurrentAngle());
     m_context->SetLocation(RobotAISShape[5],trans);
@@ -718,7 +784,8 @@ void OccView::ButtonAxis05MoveBackward()
 void OccView::ButtonAxis06MoveBackward()
 {
     gp_Trsf trans;
-    getJoint06CurrentAngle()=getJoint06CurrentAngle()-Joint06OriginAngle-deltaAngle;
+//    getJoint06CurrentAngle()=getJoint06CurrentAngle()-Joint06OriginAngle-deltaAngle;
+    getJoint06CurrentAngle()=getJoint06CurrentAngle()-Joint06OriginAngle_static-DeltaAngle;
     Ui::PILimit(getJoint06CurrentAngle());
     trans.SetRotation(GeneralAx6,getJoint06CurrentAngle());
     m_context->SetLocation(RobotAISShape[6],trans);
