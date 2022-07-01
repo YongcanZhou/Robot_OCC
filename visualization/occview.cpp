@@ -1,4 +1,4 @@
-﻿#include "occview.h"
+﻿#include "visualization/occview.h"
 
 #define DeltaAngle ((45.0/180.0)*M_PI)
 
@@ -32,8 +32,6 @@ double OccView::Joint05OriginAngle_static = 0.0;
 double OccView::Joint06OriginAngle_static = 0.0;
 
 #endif
-
-
 
 
 OccView::OccView(QWidget *parent) : QWidget(parent)
@@ -233,7 +231,8 @@ void OccView::loadDisplayRobotWhole()
 //        m_context->SetLocation(RobotAISShape[4],delta);
 //        m_context->Update(RobotAISShape[4],Standard_True);
 
-        //RobotAISShape[6]->AddChild(RobotAISShape[7]);
+        //robot 模型树
+//        RobotAISShape[6]->AddChild(RobotAISShape[7]);
         RobotAISShape[5]->AddChild(RobotAISShape[6]);
         RobotAISShape[4]->AddChild(RobotAISShape[5]);
         RobotAISShape[3]->AddChild(RobotAISShape[4]);
@@ -613,7 +612,7 @@ void OccView::RobotBackHome()
 }
 
 
-
+// 轴1向前旋转
 void OccView::ButtonAxis01MoveForward()
 {
 //    gp_Trsf trans;
@@ -627,6 +626,7 @@ void OccView::ButtonAxis01MoveForward()
     getJoint01CurrentAngle()=getJoint01CurrentAngle()-Joint01OriginAngle_static+DeltaAngle;
     Ui::PILimit(getJoint01CurrentAngle());
     trans.SetRotation(GeneralAx1,getJoint01CurrentAngle());
+
     m_context->SetLocation(RobotAISShape[1],trans);
     m_context->UpdateCurrentViewer();
 }

@@ -6,7 +6,7 @@
 #include <QtWidgets/QApplication>
 #include <QDebug>
 #include <QMenu>
-#include <general.h>
+#include <visualization/general.h>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QEasingCurve>

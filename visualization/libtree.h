@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <QString>
-#include "occ.h"
+#include "visualization/occ.h"
 
 
 using NodeId = uint32_t;

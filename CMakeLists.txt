@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(VisualizationDemoV01)
+project(Robot_OCC)
 
 # use c++ 11 standard
 set(CMAKE_CXX_STANDARD 11)
@@ -47,13 +47,30 @@ include_directories("D:/app/OpenCASCADE-7.4.0-vc14-64/opencascade-7.4.0/inc")
 include_directories("D:/app/eigen-3.4.0")
 include_directories("C:/Users/ZHOUYC/Desktop/contact/4.Visualization/Robot_OCC/visualization")
 
+##set(INC_DIR /Users/haoran/Downloads/wfdb/include)
+#set(LINK_DIR
+#        D:/app/Qt/5.12.12/msvc2017_64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/opencascade-7.4.0/win64/vc14/lib
+#        D:/app/Qt/5.12.12/msvc2017_64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/vtk-6.1.0-vc14-64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/freeimage-3.17.0-vc14-64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/freetype-2.5.5-vc14-64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/ffmpeg-3.3.4-64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/tbb_2017.0.100/lib/intel64/vc14
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/vtk-6.1.0-vc14-64/lib
+#        D:/app/OpenCASCADE-7.4.0-vc14-64/tcltk-86-64/lib
+#        )
+#
+##include_directories(${INC_DIR})
+#link_directories(${LINK_DIR})
+
 file(GLOB HEADERS
-    visualization/*.h
+    ./visualization/*.h
 )
 file(GLOB SOURCES
     main.cpp
-    visualization/*.cpp
-    visualization/*.ui
+    ./visualization/*.cpp
+    ./visualization/*.ui
 
     ${HEADERS}
 )
