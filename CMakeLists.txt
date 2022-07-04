@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.12)
 
 project(Robot_OCC)
 
-# use c++ 11 standard
-set(CMAKE_CXX_STANDARD 11)
+# use c++ 17 standard
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -40,47 +40,50 @@ find_package(Qt5Gamepad REQUIRED)
 IF(WIN32)
         find_package(OpenCASCADE REQUIRED PATHS D:/app/OpenCASCADE-7.4.0-vc14-64/opencascade-7.4.0/cmake)
 endif(WIN32)
+# find aris
+if(UNIX)
+        add_definitions(-DUNIX)
+        find_package(aris REQUIRED PATHS /usr/aris)
+endif(UNIX)
+IF(WIN32)
+        # find_package(aris REQUIRED PATHS C:/aris/aris-2.2.1.220620/share/aris/cmake)
+        find_package(aris REQUIRED PATHS C:/aris/aris-2.0.0.220225/share/aris/cmake)
+endif(WIN32)
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${OpenCASCADE_INCLUDE_DIR})
 include_directories("D:/app/OpenCASCADE-7.4.0-vc14-64/opencascade-7.4.0/inc")
 include_directories("D:/app/eigen-3.4.0")
-include_directories("C:/Users/ZHOUYC/Desktop/contact/4.Visualization/Robot_OCC/visualization")
-
-##set(INC_DIR /Users/haoran/Downloads/wfdb/include)
-#set(LINK_DIR
-#        D:/app/Qt/5.12.12/msvc2017_64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/opencascade-7.4.0/win64/vc14/lib
-#        D:/app/Qt/5.12.12/msvc2017_64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/vtk-6.1.0-vc14-64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/freeimage-3.17.0-vc14-64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/freetype-2.5.5-vc14-64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/ffmpeg-3.3.4-64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/tbb_2017.0.100/lib/intel64/vc14
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/vtk-6.1.0-vc14-64/lib
-#        D:/app/OpenCASCADE-7.4.0-vc14-64/tcltk-86-64/lib
-#        )
-#
-##include_directories(${INC_DIR})
-#link_directories(${LINK_DIR})
+include_directories(${aris_INCLUDE_DIRS})
 
 file(GLOB HEADERS
-    ./visualization/*.h
+    ./src/visualization/*.h
+    ./src/simulator/*.h
 )
 file(GLOB SOURCES
     main.cpp
-    ./visualization/*.cpp
-    ./visualization/*.ui
-
-    ${HEADERS}
+    ./src/visualization/*.cpp
+    ./src/simulator/*.cpp
+    ./src/visualization/*.ui
 )
 
 set(RESOURCES images/image.qrc)
-message(${OpenCASCADE_DIR} )
+#message(${OpenCASCADE_DIR} )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME}  Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport Qt5::Gamepad)
 target_link_libraries(${PROJECT_NAME} ${OpenCASCADE_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} )
+
+
+if(UNIX)
+        target_link_libraries(${PROJECT_NAME} ${aris_LIBRARIES} atomic)
+endif(UNIX)
+IF(WIN32)
+        target_link_libraries(${PROJECT_NAME} ${aris_LIBRARIES})
+endif(WIN32)
+
 
 
 

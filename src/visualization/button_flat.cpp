@@ -4,7 +4,7 @@
 ** See license at https://github.com/fougue/mayo/blob/master/LICENSE.txt
 ****************************************************************************/
 
-#include "visualization/button_flat.h"
+#include "src/visualization/button_flat.h"
 
 
 namespace Ui {

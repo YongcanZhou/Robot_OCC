@@ -1,10 +1,18 @@
-﻿#include "visualization/occview.h"
+﻿#include <aris.hpp>
+#include <iostream>
+
+#include "src/visualization/occview.h"
+#include "src/simulator/dynamic_simulator.h"
+
+using namespace std;
+using namespace aris::dynamic;
 
 #define DeltaAngle ((45.0/180.0)*M_PI)
+#define Deltaz (0.2)
 
-#define KR16
+//#define KR16
 //#define UR5
-
+#define XB4
 
 #ifdef UR5
 double OccView::Joint01CurrentAngle=-PI/2;
@@ -13,7 +21,6 @@ double OccView::Joint03CurrentAngle=0.0;
 double OccView::Joint04CurrentAngle=-PI/2;
 double OccView::Joint05CurrentAngle=0.0;
 double OccView::Joint06CurrentAngle=0.0;
-
 #endif
 
 #ifdef KR16
@@ -30,7 +37,22 @@ double OccView::Joint03OriginAngle_static = 0.0;
 double OccView::Joint04OriginAngle_static = 0.0;
 double OccView::Joint05OriginAngle_static = 0.0;
 double OccView::Joint06OriginAngle_static = 0.0;
+double OccView::z=0.0;
+#endif
 
+#ifdef XB4
+double OccView::Joint01CurrentAngle=0.0;
+double OccView::Joint02CurrentAngle=0.0;
+double OccView::Joint03CurrentAngle=0.0;
+double OccView::Joint04CurrentAngle=0.0;
+double OccView::Joint05CurrentAngle=0.0;
+double OccView::Joint06CurrentAngle=0.0;
+double OccView::Joint01OriginAngle_static = 0.0;
+double OccView::Joint02OriginAngle_static = 0.0;
+double OccView::Joint03OriginAngle_static = 0.0;
+double OccView::Joint04OriginAngle_static = 0.0;
+double OccView::Joint05OriginAngle_static = 0.0;
+double OccView::Joint06OriginAngle_static = 0.0;
 #endif
 
 
@@ -63,6 +85,12 @@ OccView::OccView(QWidget *parent) : QWidget(parent)
     UR5Ax5=gp_Ax1(gp_Pnt(0,-116.3,946.83),gp_Dir(0,0,1));
     UR5Ax6=gp_Ax1(gp_Pnt(0,-161.8,994.33),gp_Dir(0,-1,0));
 
+    XB4Ax1=gp_Ax1(gp_Pnt(0,0,0),gp_Dir(0,0,1));
+    XB4Ax2=gp_Ax1(gp_Pnt(40,0,342),gp_Dir(0,1,0));
+    XB4Ax3=gp_Ax1(gp_Pnt(40,0,617),gp_Dir(0,1,0));
+    XB4Ax4=gp_Ax1(gp_Pnt(40,0,642),gp_Dir(1,0,0));
+    XB4Ax5=gp_Ax1(gp_Pnt(320,0,642),gp_Dir(0,1,0));
+    XB4Ax6=gp_Ax1(gp_Pnt(393,0,642),gp_Dir(1,0,0));
 
     #ifdef UR5
         GeneralAx1=UR5Ax1;
@@ -81,6 +109,16 @@ OccView::OccView(QWidget *parent) : QWidget(parent)
         GeneralAx5=KukaAx5;
         GeneralAx6=KukaAx6;
     #endif
+
+    #ifdef XB4
+        GeneralAx1=XB4Ax1;
+        GeneralAx2=XB4Ax2;
+        GeneralAx3=XB4Ax3;
+        GeneralAx4=XB4Ax4;
+        GeneralAx5=XB4Ax5;
+        GeneralAx6=XB4Ax6;
+    #endif
+
 
 }
 
@@ -233,12 +271,12 @@ void OccView::loadDisplayRobotWhole()
 
         //robot 模型树
 //        RobotAISShape[6]->AddChild(RobotAISShape[7]);
-        RobotAISShape[5]->AddChild(RobotAISShape[6]);
+    /*    RobotAISShape[5]->AddChild(RobotAISShape[6]);
         RobotAISShape[4]->AddChild(RobotAISShape[5]);
         RobotAISShape[3]->AddChild(RobotAISShape[4]);
         RobotAISShape[2]->AddChild(RobotAISShape[3]);
         RobotAISShape[1]->AddChild(RobotAISShape[2]);
-        RobotAISShape[0]->AddChild(RobotAISShape[1]);
+        RobotAISShape[0]->AddChild(RobotAISShape[1]);*/
 
     }
 
@@ -622,11 +660,11 @@ void OccView::ButtonAxis01MoveForward()
 //    trans.SetRotation(GeneralAx1,angle);
 //    m_context->SetLocation( RobotAISShape[1],trans);
 //    m_context->UpdateCurrentViewer();
+
     gp_Trsf trans;
     getJoint01CurrentAngle()=getJoint01CurrentAngle()-Joint01OriginAngle_static+DeltaAngle;
     Ui::PILimit(getJoint01CurrentAngle());
     trans.SetRotation(GeneralAx1,getJoint01CurrentAngle());
-
     m_context->SetLocation(RobotAISShape[1],trans);
     m_context->UpdateCurrentViewer();
 }
@@ -644,6 +682,9 @@ void OccView::ButtonAxis02MoveForward()
     getJoint02CurrentAngle()=getJoint02CurrentAngle()-Joint02OriginAngle_static+DeltaAngle;
     Ui::PILimit(getJoint02CurrentAngle());
     trans.SetRotation(GeneralAx2,getJoint02CurrentAngle());
+//    z+=Deltaz;
+//    gp_Vec theVectorOfTranslation(-6,-6,z);
+//    trans.SetTranslation(theVectorOfTranslation);
     m_context->SetLocation(RobotAISShape[2],trans);
     m_context->UpdateCurrentViewer();
 
@@ -681,12 +722,74 @@ void OccView::ButtonAxis04MoveForward()
 //    trans.SetRotation(GeneralAx4,angle);
 //    m_context->SetLocation( RobotAISShape[4],trans);
 //    m_context->UpdateCurrentViewer();
-    gp_Trsf trans;
+
+//  transform
+    std::array<double,6*16> link_pm;
+    std::array<double,6*16> link_start;
+    zyc::DynamicSimulator(link_pm,link_start);
+    //cout
+/*    int z{0};
+    for(int i=0;i<6;++i){
+//        m->partPool().at(i).getPm(link);
+        for(int j=0;j<16;++j){
+//            link_position[j+i*16] = link[j];
+            std::cout<<"num"<<z<<":"<<link_pm[j+i*16]<<" ";
+            z+=1;
+        }
+    }*/
+/*    gp_Trsf transformation_start;
+    for(int i=0;i<6;++i){
+        transformation_start.SetValues(link_start[i*16],link_start[i*16+1],link_start[i*16+2],link_start[i*16+3],
+                                       link_start[i*16+4],link_start[i*16+5],link_start[i*16+6],link_start[i*16+7],
+                                       link_start[i*16+8],link_start[i*16+9],link_start[i*16+10],link_start[i*16+11]);
+        m_context->SetLocation(RobotAISShape[i],transformation_start);
+        m_context->UpdateCurrentViewer();
+    }*/
+
+    gp_Trsf transformation;
+    for(int i=0;i<6;++i){
+        transformation.SetValues(link_pm[i*16],link_pm[i*16+1],link_pm[i*16+2],link_pm[i*16+3],
+                                 link_pm[i*16+4],link_pm[i*16+5],link_pm[i*16+6],link_pm[i*16+7],
+                                 link_pm[i*16+8],link_pm[i*16+9],link_pm[i*16+10],link_pm[i*16+11]);
+        m_context->SetLocation(RobotAISShape[i],transformation);
+        m_context->UpdateCurrentViewer();
+    }
+
+/*    //move x
+    static double dx;
+    dx=dx+20;
+    transformation.SetValues(1,0,0,dx,
+                             0,1,0,0,
+                             0,0,1,0);
+    m_context->SetLocation(RobotAISShape[4],transformation);
+    m_context->UpdateCurrentViewer();
+    */
+
+/*
+    //! Sets the coefficients  of the transformation.  The
+    //! transformation  of the  point  x,y,z is  the point
+    //! x',y',z' with :
+    //!
+    //! x' = a11 x + a12 y + a13 z + a14
+    //! y' = a21 x + a22 y + a23 z + a24
+    //! z' = a31 x + a32 y + a33 z + a34
+    //!
+    //! The method Value(i,j) will return aij.
+    //! Raises ConstructionError if the determinant of  the aij is null.
+    //! The matrix is orthogonalized before future using.
+    Standard_EXPORT void SetValues (const Standard_Real a11, const Standard_Real a12, const Standard_Real a13, const Standard_Real a14, const Standard_Real a21, const Standard_Real a22, const Standard_Real a23, const Standard_Real a24, const Standard_Real a31, const Standard_Real a32, const Standard_Real a33, const Standard_Real a34);
+*/
+
+/*    //! Creates an axis placement with the  "Location" point <P>
+    //! and the normal direction <V>.
+    Standard_EXPORT gp_Ax3(const gp_Pnt& P, const gp_Dir& V);*/
+
+/*    gp_Trsf trans;
     getJoint04CurrentAngle()=getJoint04CurrentAngle()-Joint04OriginAngle_static+DeltaAngle;
     Ui::PILimit(getJoint04CurrentAngle());
     trans.SetRotation(GeneralAx4,getJoint04CurrentAngle());
     m_context->SetLocation(RobotAISShape[4],trans);
-    m_context->UpdateCurrentViewer();
+    m_context->UpdateCurrentViewer();*/
 }
 
 void OccView::ButtonAxis05MoveForward()

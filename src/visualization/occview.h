@@ -6,11 +6,12 @@
 #include <QtWidgets/QApplication>
 #include <QDebug>
 #include <QMenu>
-#include <visualization/general.h>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QEasingCurve>
 #include <QThread>
+
+#include <src/visualization/general.h>
 
 #define BUTTON_ON true
 #define BUTTON_OFF false
@@ -243,8 +244,9 @@ private:
     static double Joint01OriginAngle_static,Joint02OriginAngle_static,Joint03OriginAngle_static,Joint04OriginAngle_static,Joint05OriginAngle_static,Joint06OriginAngle_static;
     gp_Ax1 KukaAx1,KukaAx2,KukaAx3,KukaAx4,KukaAx5,KukaAx6;
     gp_Ax1 UR5Ax1,UR5Ax2,UR5Ax3,UR5Ax4,UR5Ax5,UR5Ax6;
+    gp_Ax1 XB4Ax1,XB4Ax2,XB4Ax3,XB4Ax4,XB4Ax5,XB4Ax6;
     gp_Ax1 GeneralAx1,GeneralAx2,GeneralAx3,GeneralAx4,GeneralAx5,GeneralAx6;
-
+    static double z;
 
 public:
     OCAFBrowser *ocaf;

@@ -1,9 +1,9 @@
 ﻿#ifndef GENERAL_H
 #define GENERAL_H
-#include <visualization/button_flat.h>
 #include <QDebug>
 #include<Eigen/Eigen>
-#include <visualization/occ.h>
+#include <src/visualization/occ.h>
+#include <src/visualization/button_flat.h>
 namespace Ui {
 
 #define deltaAngle 0.2

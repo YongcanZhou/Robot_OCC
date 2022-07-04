@@ -2,15 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <visualization/occview.h>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSpacerItem>
-#include <visualization/general.h>
 #include <QLineEdit>
 #include <QPlainTextEdit>
-
+#include <src/visualization/occview.h>
+#include <src/visualization/general.h>
 
 namespace Ui {
 class MainWindow;
