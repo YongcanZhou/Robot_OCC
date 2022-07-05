@@ -724,12 +724,12 @@ void OccView::ButtonAxis04MoveForward()
 //    m_context->UpdateCurrentViewer();
 
 //  transform
-    std::array<double,6*16> link_pm;
-    std::array<double,6*16> link_start;
-    zyc::DynamicSimulator(link_pm,link_start);
+    std::array<double,7*16> link_pm;
+
+    zyc::DynamicSimulator(link_pm);
     //cout
 /*    int z{0};
-    for(int i=0;i<6;++i){
+    for(int i=0;i<7;++i){
 //        m->partPool().at(i).getPm(link);
         for(int j=0;j<16;++j){
 //            link_position[j+i*16] = link[j];
@@ -737,17 +737,9 @@ void OccView::ButtonAxis04MoveForward()
             z+=1;
         }
     }*/
-/*    gp_Trsf transformation_start;
-    for(int i=0;i<6;++i){
-        transformation_start.SetValues(link_start[i*16],link_start[i*16+1],link_start[i*16+2],link_start[i*16+3],
-                                       link_start[i*16+4],link_start[i*16+5],link_start[i*16+6],link_start[i*16+7],
-                                       link_start[i*16+8],link_start[i*16+9],link_start[i*16+10],link_start[i*16+11]);
-        m_context->SetLocation(RobotAISShape[i],transformation_start);
-        m_context->UpdateCurrentViewer();
-    }*/
 
     gp_Trsf transformation;
-    for(int i=0;i<6;++i){
+    for(int i=0;i<7;++i){
         transformation.SetValues(link_pm[i*16],link_pm[i*16+1],link_pm[i*16+2],link_pm[i*16+3],
                                  link_pm[i*16+4],link_pm[i*16+5],link_pm[i*16+6],link_pm[i*16+7],
                                  link_pm[i*16+8],link_pm[i*16+9],link_pm[i*16+10],link_pm[i*16+11]);
