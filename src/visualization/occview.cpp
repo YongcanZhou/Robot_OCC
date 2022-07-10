@@ -723,29 +723,27 @@ void OccView::ButtonAxis04MoveForward()
 //    m_context->SetLocation( RobotAISShape[4],trans);
 //    m_context->UpdateCurrentViewer();
 
+//  gp_Trsf trsf_origin;
+//  trsf_origin.SetValues(1, 0, 0,  -100000,
+//                        0, 1,  0,    0,
+//                        0, 0,  1, 393);
+//  m_context->SetLocation(RobotAISShape[6],trsf_origin);
+//  m_context->UpdateCurrentViewer();
+//  RobotAISShape[6]->get_type_descriptor().get();
 //  transform
-    std::array<double,7*16> link_pm;
 
-    zyc::DynamicSimulator(link_pm);
-    //cout
-/*    int z{0};
-    for(int i=0;i<7;++i){
-//        m->partPool().at(i).getPm(link);
-        for(int j=0;j<16;++j){
-//            link_position[j+i*16] = link[j];
-            std::cout<<"num"<<z<<":"<<link_pm[j+i*16]<<" ";
-            z+=1;
-        }
-    }*/
+  zyc::DynamicSimulator(link_pm);
 
-    gp_Trsf transformation;
-    for(int i=0;i<7;++i){
-        transformation.SetValues(link_pm[i*16],link_pm[i*16+1],link_pm[i*16+2],link_pm[i*16+3],
-                                 link_pm[i*16+4],link_pm[i*16+5],link_pm[i*16+6],link_pm[i*16+7],
-                                 link_pm[i*16+8],link_pm[i*16+9],link_pm[i*16+10],link_pm[i*16+11]);
-        m_context->SetLocation(RobotAISShape[i],transformation);
-        m_context->UpdateCurrentViewer();
-    }
+  gp_Trsf transformation;
+  for(int i=0;i<7;++i){
+    transformation.SetValues(link_pm[i*16],link_pm[i*16+1],link_pm[i*16+2],link_pm[i*16+3],
+                               link_pm[i*16+4],link_pm[i*16+5],link_pm[i*16+6],link_pm[i*16+7],
+                               link_pm[i*16+8],link_pm[i*16+9],link_pm[i*16+10],link_pm[i*16+11]);
+//      std::cout<<"position:"<<"x "<<link_pm[i*16+3]<<"y "<<link_pm[i*16+7]<<"z "<< link_pm[i*16+11]<<std::endl;
+    m_context->SetLocation(RobotAISShape[i],transformation);
+    m_context->UpdateCurrentViewer();
+  }
+//    std::cout<<"position:"<<transformation.TranslationPart().X()<<std::endl;
 
 /*    //move x
     static double dx;

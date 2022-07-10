@@ -34,7 +34,7 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Gui CONFIG REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 find_package(Qt5Gamepad REQUIRED)
-# find_package(Eigen3 REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 # find OCC
 IF(WIN32)

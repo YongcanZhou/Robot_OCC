@@ -247,6 +247,7 @@ private:
     gp_Ax1 XB4Ax1,XB4Ax2,XB4Ax3,XB4Ax4,XB4Ax5,XB4Ax6;
     gp_Ax1 GeneralAx1,GeneralAx2,GeneralAx3,GeneralAx4,GeneralAx5,GeneralAx6;
     static double z;
+    std::array<double,7*16> link_pm;
 
 public:
     OCAFBrowser *ocaf;
